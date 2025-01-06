@@ -45,12 +45,8 @@ public class UserService {
         return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<?> updateUser(String userName, int newScore){
-        User userInDB = userRepository.findByUserName(userName);
-
-        if(userInDB == null){
-            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<?> updateUser(ObjectId id, int newScore){
+        User userInDB = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User Not Found"));
 
         // check if the newScore is valid or not
         if(newScore < 0 || newScore > 100){ // not in valid range
@@ -61,7 +57,7 @@ public class UserService {
 
         // update badges
         Set<Badge> badges= userInDB.getBadges();
-        if(newScore >= 0 && newScore < 30){
+        if(newScore >= 1 && newScore < 30){
             badges.add(Badge.CODE_NINJA);
         } else if (newScore >= 30 && newScore < 60) {
             badges.add(Badge.CODE_CHAMP);

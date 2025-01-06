@@ -33,8 +33,8 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<?> updateScore(@RequestBody User user){
-        return userService.updateUser(user.getUserName(), user.getScore());
+    public ResponseEntity<?> updateScore(@PathVariable ObjectId userId, @RequestBody int score){
+        return userService.updateUser(userId, score);
     }
 
     @DeleteMapping("/{userId}")
